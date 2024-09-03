@@ -22,6 +22,7 @@ interface SignUpCardProps {
 const SignUpCard = ({ setState }: SignUpCardProps) => {
   const { signIn } = useAuthActions();
 
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -39,6 +40,7 @@ const SignUpCard = ({ setState }: SignUpCardProps) => {
     setPending(true);
 
     signIn('password', {
+      name,
       email,
       password,
       flow: 'signUp',
@@ -76,6 +78,16 @@ const SignUpCard = ({ setState }: SignUpCardProps) => {
         <form onSubmit={handlePasswordSignUp} className="space-y-2.5">
           <Input
             disabled={pending}
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+            placeholder="Full name"
+            type="text"
+            required
+          />
+          <Input
+            disabled={pending}
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -100,7 +112,7 @@ const SignUpCard = ({ setState }: SignUpCardProps) => {
             onChange={(e) => {
               setConfirmPassword(e.target.value);
             }}
-            placeholder="Confirm Password"
+            placeholder="Confirm password"
             type="password"
             required
           />
