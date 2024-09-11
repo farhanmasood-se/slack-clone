@@ -23,7 +23,7 @@ const Header = ({ title }: HeaderProps) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\s+/g, '-').toLowerCase();
-    setName(value);
+    setValue(value);
   };
 
   return (
