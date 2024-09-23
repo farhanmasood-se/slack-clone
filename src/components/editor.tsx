@@ -164,7 +164,6 @@ const Editor = ({
 
   const onEmojiSelect = (emoji: any) => {
     const quill = quillRef.current;
-
     quill?.insertText(quill.getSelection()?.index || 0, emoji.native);
   };
 
