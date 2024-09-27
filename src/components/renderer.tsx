@@ -28,8 +28,9 @@ const Renderer = ({ value }: RendererProps) => {
     const isEmpty =
       quill
         .getText()
-        .replace(/<(.\|\n)*?>/g, '')
+        .replace(/<(.|\n)*?>/g, '')
         .trim().length === 0;
+
     setIsEmpty(isEmpty);
 
     container.innerHTML = quill.root.innerHTML;
@@ -41,7 +42,7 @@ const Renderer = ({ value }: RendererProps) => {
     };
   }, [value]);
 
-  if (!isEmpty) return null;
+  if (isEmpty) return null;
 
   return <div ref={rendererRef} className="ql-editor ql-renderer" />;
 };

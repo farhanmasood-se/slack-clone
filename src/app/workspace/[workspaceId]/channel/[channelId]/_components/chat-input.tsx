@@ -55,11 +55,11 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
         const url = await generateUploadUrl({}, { throwError: true });
 
         if (!url) {
-          throw new Error('Failed to generate upload url');
+          throw new Error('Url not found');
         }
 
         const result = await fetch(url, {
-          method: 'PUT',
+          method: 'POST',
           headers: {
             'Content-Type': image.type,
           },
@@ -71,12 +71,11 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
         }
 
         const { storageId } = await result.json();
+
         values.image = storageId;
       }
-
       await createMessage(values, { throwError: true });
-
-      setEditorKey((prevKey) => prevKey + 1);
+      setEditorKey((prev) => prev + 1);
     } catch (error) {
       toast.error('Failed to send message');
     } finally {
@@ -90,9 +89,12 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
       <Editor
         key={editorKey}
         placeholder={placeholder}
-        onSubmit={handleSubmit}
         disabled={isPending}
         innerRef={editorRef}
+        onSubmit={({ body, image }) =>
+          handleSubmit({ body, image: image || null })
+        }
+        variant="create"
       />
     </div>
   );
