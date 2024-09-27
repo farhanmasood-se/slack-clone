@@ -34,9 +34,13 @@ interface MessageProps {
 }
 
 const formatFullTime = (date: Date) => {
-  return `
-    ${isToday(date) ? 'Today' : isYesterday(date) ? 'Yesterday' : format(date, 'MMM D, yyyy')} at ${format(date, 'h:mm:ss a')}
-  `;
+  return `${
+    isToday(date)
+      ? 'Today'
+      : isYesterday(date)
+        ? 'Yesterday'
+        : format(date, 'MMM d, yyyy')
+  } at ${format(date, 'h:mm:ss a')}`;
 };
 
 const Message = ({
@@ -63,18 +67,18 @@ const Message = ({
   if (isCompact) {
     return (
       <div className="flex flex-col gap-2 p-1.5 px-5 hover:bg-gray-100/60 group relative">
-        <div className="flex items-center gap-2">
+        <div className="flex item-start gap-2">
           <Hint label={formatFullTime(new Date(createdAt))}>
-            <button className="text-xs text-muted-foreground opacity-0 group-hover:opacity-100 w-[40px] leading-[22px] text-center hover:underline">
-              {format(new Date(createdAt), 'HH:mm')}
+            <button className="text-muted-foreground text-xs opacity-0 group-hover:opacity-100 w-[42.7px] leading-[22px] text-center hover:underline">
+              {format(new Date(createdAt), 'hh:mm')}
             </button>
           </Hint>
+
           <div className="flex flex-col w-full">
             <Renderer value={body} />
             <Thumbnail url={image} />
-
             {updatedAt ? (
-              <span className="text-xs text-muted-foreground">(edited)</span>
+              <span className="text-muted-foreground text-xs">Edited</span>
             ) : null}
           </div>
         </div>
@@ -82,36 +86,39 @@ const Message = ({
     );
   }
 
+  const avatarFallback = authorName.charAt(0).toUpperCase();
+
   return (
     <div className="flex flex-col gap-2 p-1.5 px-5 hover:bg-gray-100/60 group relative">
       <div className="flex items-start gap-2">
-        <button className="text-xs text-muted-foreground opacity-0 group-hover:opacity-100 w-[40px] leading-[22px] text-center hover:underline">
+        <button onClick={() => {}}>
           <Avatar>
             <AvatarImage src={authorImage} />
-            <AvatarFallback>{authorFallback}</AvatarFallback>
+            <AvatarFallback>{avatarFallback}</AvatarFallback>
           </Avatar>
         </button>
-      </div>
-      <div className="flex flex-col w-full overflow-hidden">
-        <div className="text-sm">
-          <button
-            onClick={() => {}}
-            className="font-bold text-primary hover:underline"
-          >
-            {authorName}
-          </button>
-          <span>&nbsp; &nbsp;</span>
-          <Hint label={formatFullTime(new Date(createdAt))}>
-            <button className="text-xs text-muted-foreground hover:underline">
-              {format(new Date(createdAt), 'h:mm a')}
+
+        <div className="flex flex-col w-full overflow-hidden">
+          <div className="text-sm font-medium">
+            <button
+              onClick={() => {}}
+              className="font-bold text-primary hover:underline"
+            >
+              {authorName}
             </button>
-          </Hint>
+            <span>&nbsp;&nbsp;</span>
+            <Hint label={formatFullTime(new Date(createdAt))}>
+              <button className="text-muted-foreground text-xs hover:underline">
+                {format(new Date(createdAt), 'h:mm a')}
+              </button>
+            </Hint>
+          </div>
+          <Renderer value={body} />
+          <Thumbnail url={image} />
+          {updatedAt ? (
+            <span className="text-muted-foreground text-xs">Edited</span>
+          ) : null}
         </div>
-        <Renderer value={body} />
-        <Thumbnail url={image} />
-        {updatedAt ? (
-          <span className="text-xs text-muted-foreground">(edited)</span>
-        ) : null}
       </div>
     </div>
   );
