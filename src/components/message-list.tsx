@@ -1,5 +1,5 @@
 import { differenceInMinutes, format, isToday, isYesterday } from 'date-fns';
-import { GetMessageReturnType } from '@/features/members/api/use-get-messages';
+import { GetMessageReturnType } from '@/features/messages/api/use-get-messages';
 import Message from './message';
 import ChannelHero from './channel-hero';
 import { useState } from 'react';
