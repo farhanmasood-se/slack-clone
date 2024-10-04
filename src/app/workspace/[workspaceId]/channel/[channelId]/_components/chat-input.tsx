@@ -18,7 +18,7 @@ type CreateMessageValues = {
   channelId: Id<'channels'>;
   workspaceId: Id<'workspaces'>;
   body: string;
-  image?: Id<'_storage'>;
+  image?: Id<'_storage'> | undefined;
 };
 
 export const ChatInput = ({ placeholder }: ChatInputProps) => {

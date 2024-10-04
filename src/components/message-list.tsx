@@ -1,4 +1,4 @@
-import { differenceInMinutes, format, isToday, isYesterday } from 'date-fns';
+import { differenceInMinutes, format } from 'date-fns';
 import { GetMessageReturnType } from '@/features/messages/api/use-get-messages';
 import Message from './message';
 import ChannelHero from './channel-hero';
@@ -6,10 +6,8 @@ import { useState } from 'react';
 import { Id } from '../../convex/_generated/dataModel';
 import { useWorkspaceId } from '@/hooks/use-workspace-id';
 import { useCurrentMember } from '@/features/members/api/use-current-member';
-import { current } from '../../convex/members';
 import { Loader } from 'lucide-react';
-
-const TIME_THRESHOLD = 5;
+import { formatDateLabel, TIME_THRESHOLD } from '@/lib/utils';
 
 interface MessageListProps {
   memberName?: string;
@@ -22,19 +20,6 @@ interface MessageListProps {
   isLoadingMore: boolean;
   canLoadMore: boolean;
 }
-
-const formatDateLabel = (datsStr: string) => {
-  const date = new Date(datsStr);
-
-  if (isToday(date)) {
-    return 'Today';
-  }
-  if (isYesterday(date)) {
-    return 'Yesterday';
-  }
-
-  return format(date, 'EEEE, MMMM d');
-};
 
 const MessageList = ({
   memberName,
@@ -70,7 +55,7 @@ const MessageList = ({
   );
 
   return (
-    <div className="flex flex-col-reverse flex-1 pb-4 overflow-y-auto gap-y-2 messages-scrollbar">
+    <div className="flex flex-col-reverse flex-1 pb-4 overflow-y-auto messages-scrollbar">
       {Object.entries(groupedMessages || {}).map(([dateKey, messages]) => (
         <div key={dateKey}>
           <div className="text-center my-2 relative">
