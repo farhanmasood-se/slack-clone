@@ -1,4 +1,7 @@
-import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
+import { CopyIcon, RefreshCcw } from 'lucide-react';
+
+import { cn } from '@/lib/utils';
 import {
   Dialog,
   DialogClose,
@@ -7,11 +10,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { useNewJoinCode } from '@/features/workspaces/api/use-new-join-code';
+import { Button } from '@/components/ui/button';
+
 import { useConfirm } from '@/hooks/use-confirm';
 import { useWorkspaceId } from '@/hooks/use-workspace-id';
-import { CopyIcon, RefreshCcw } from 'lucide-react';
-import { toast } from 'sonner';
+import { useNewJoinCode } from '@/features/workspaces/api/use-new-join-code';
 
 interface InviteModalProps {
   open: boolean;
@@ -21,41 +24,38 @@ interface InviteModalProps {
 }
 
 const InviteModal = ({ open, setOpen, name, joinCode }: InviteModalProps) => {
-  const [ConfirmDialog, confirm] = useConfirm(
-    'Are you sure',
-    'This will deactive the current invite code and create a new one.',
-  );
-
   const workspaceId = useWorkspaceId();
-
   const { mutate, isPending } = useNewJoinCode();
 
-  const handleCopy = () => {
-    const inviteLink = `${window.location.origin}/join/${workspaceId}`;
-
-    navigator.clipboard.writeText(inviteLink).then(() => {
-      toast.success('Link copied to clipboard');
-    });
-  };
+  const [ConfirmDialog, confirm] = useConfirm(
+    'Are you sure ?',
+    'This will deactivate the current invite code and generate a new one.',
+  );
 
   const handleNewCode = async () => {
     const ok = await confirm();
 
-    if (!ok) {
-      return;
-    }
+    if (!ok) return;
 
     mutate(
       { workspaceId },
       {
         onSuccess: () => {
-          toast.success('New code created');
+          toast.success('Invite code regenerated');
         },
         onError: () => {
-          toast.error('Failed to create new code');
+          toast.error('Failed to regenerate invite code');
         },
       },
     );
+  };
+
+  const handleCopy = () => {
+    const inviteLink = `${window.location.origin}/join/${workspaceId}`;
+
+    navigator.clipboard
+      .writeText(inviteLink)
+      .then(() => toast.success('Invite link copied to clipboard'));
   };
 
   return (

@@ -41,8 +41,8 @@ const JoinWorkspace = () => {
     mutate(
       { workspaceId, joinCode: value },
       {
-        onSuccess: () => {
-          router.replace(`/workspace/${workspaceId}`);
+        onSuccess: (id) => {
+          router.replace(`/workspace/${id}`);
           toast.success('Successfully joined workspace');
         },
         onError: () => {
