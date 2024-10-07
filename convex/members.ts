@@ -181,17 +181,17 @@ export const remove = mutation({
     }
 
     if (currentMember._id === args.id && currentMember.role === 'admin') {
-      throw new Error('Cannot remove yourself');
+      throw new Error('Cannot remove self assuming that self is an admin');
     }
 
     const [messages, reactions, conversations] = await Promise.all([
       ctx.db
         .query('messages')
-        .withIndex('by_member_id', (q) => q.eq('memberId', args.id))
+        .withIndex('by_member_id', (q) => q.eq('memberId', member._id))
         .collect(),
       ctx.db
         .query('reactions')
-        .withIndex('by_member_id', (q) => q.eq('memberId', args.id))
+        .withIndex('by_member_id', (q) => q.eq('memberId', member._id))
         .collect(),
       ctx.db
         .query('conversations')
