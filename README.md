@@ -12,6 +12,7 @@
 # :notebook_with_decorative_cover: Table of Contents
 
 </summary>
+
 - [Getting Started](#toolbox-getting-started)
 - [Tech Stack](#gear-tech-stack)
 - [Stats](#wrench-stats)
@@ -20,10 +21,8 @@
 - [Follow Me](#rocket-follow-me)
 - [Learn More](#books-learn-more)
 - [Deploy on Vercel](#page_with_curl-deploy-on-vercel)
-- [Star History](#star2-star-history)
 
 </details>
-Here is the folder structure of this app.
 
 <br />
 
