@@ -146,7 +146,6 @@ You might encounter some bugs while using this app. You are more than welcome to
 
 Useful resources and dependencies that are used in Slack Clone.
 
-- Thanks to CodeWithAntonio: https://codewithantonio.com/
 - [@auth/core](https://www.npmjs.com/package/@auth/core): ^0.34.2
 - [@convex-dev/auth](https://www.npmjs.com/package/@convex-dev/auth): ^0.0.65
 - [@radix-ui/react-alert-dialog](https://www.npmjs.com/package/@radix-ui/react-alert-dialog): ^1.1.1
